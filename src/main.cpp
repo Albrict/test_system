@@ -1,22 +1,25 @@
+#include <FL/Enumerations.H>
 #include <FL/Fl.H>
-#include <FL/Fl_Window.H>
-#include <FL/Fl_Box.H>
-#include <FL/Fl_Button.H>
-#include <FL/Fl_Input.H>
+#include <FL/Fl_Double_Window.H>
 
-static void say_callback(Fl_Widget *w, void *user)
-{
-    ((Fl_Input*)user)->take_focus();
-}
+#include "registration_state.hpp"
+#include "group_manager.hpp"
 
-static void clear_callback(Fl_Widget *w, void *user)
-{
-    ((Fl_Input*)user)->value("");
-    ((Fl_Input*)user)->take_focus();
-}
+namespace {
+
+    Fl_Double_Window *win = nullptr;
+
+    void init()
+    {
+        win = new Fl_Double_Window(1024, 768, "Testing System");
+        GroupManager::getInstance().newGroup(*new RegistrationState);
+        win->fullscreen();
+        win->show();
+    }
+} 
 
 int main (int argc, char *argv[]) 
 {
-    
-    return 0;
+    init();
+    return (Fl::run());
 }
