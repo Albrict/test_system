@@ -1,5 +1,6 @@
 #include "group_manager.hpp"
 #include <iostream>
+#include <FL/Fl.H>
 
 GroupManager *GroupManager::instance = nullptr;
 
@@ -13,24 +14,16 @@ GroupManager &GroupManager::getInstance()
     }
 }
 
-void GroupManager::nextGroup()
+void GroupManager::addGroup(const std::string &key, Fl_Group &group)
 {
-    if (current_group == group_vector.size() - 1) {
-        std::cerr << "No groups anymore in vector!\n";
-    } else {
-        group_vector[current_group]->hide();
-        ++current_group;
-        group_vector[current_group]->show();
-    }
+    add(group);
+    group_table.insert({key, &group});
 }
 
-void GroupManager::prevGroup()
+void GroupManager::deleteGroup(const std::string &key)
 {
-    if (current_group == group_vector.size() == 0) {
-        std::cerr << "No groups anymore in vector!\n";
-    } else {
-        group_vector[current_group]->hide();
-        --current_group;
-        group_vector[current_group]->show();
-    }
+    group_table[key]->hide();
+    remove(group_table[key]);
+    group_table.erase(key);
+    redraw();
 }

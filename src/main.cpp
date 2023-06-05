@@ -35,7 +35,7 @@ namespace {
         // Init GUI
         win = new Fl_Double_Window(1024, 768, "Testing System");
         win->callback(main_window_callback);
-        GroupManager::getInstance().newGroup(*new RegistrationGrop(*connection));
+        GroupManager::getInstance().addGroup("registration_group", *new RegistrationGrop(*connection));
         win->fullscreen();
         win->show();
     }

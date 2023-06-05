@@ -1,27 +1,19 @@
 #pragma once
 #include <FL/Fl_Group.H>
-#include <vector>
+#include <FL/Fl.H>
+#include <map>
+#include <string>
 
-class GroupManager {
-    std::vector<Fl_Group*> group_vector;
-    int current_group;
-
+class GroupManager : Fl_Group{
+    std::map<std::string, Fl_Group*> group_table;
     static GroupManager *instance;
 public:
     static GroupManager &getInstance();
     
-    void showCurrentGroup()
-    { group_vector[current_group]->show(); }
-
-    void hideCurrentGroup()
-    { group_vector[current_group]->hide(); }
-
-    void nextGroup();
-    void prevGroup();
-    void newGroup(Fl_Group &new_group)
-    { group_vector.push_back(&new_group); }
+    void addGroup(const std::string &key, Fl_Group &group);
+    void deleteGroup(const std::string &key);
 private:
     GroupManager()
-        : group_vector(), current_group(0) {}
+        : Fl_Group(0, 0, Fl::w(), Fl::h()), group_table(){}
     ~GroupManager() {}
 };
