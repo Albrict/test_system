@@ -1,9 +1,10 @@
 project('test_system', 'cpp', version: '0.1.0')
-src = ['src/main.cpp', 'src/registration_group.cpp', 'src/group_manager.cpp']
+src = ['src/main.cpp', 'src/registration_group.cpp', 'src/group_manager.cpp', 'src/test_group.cpp']
 sanitazers = ['-fsanitize=address', '-fsanitize=leak', '-fsanitize=undefined', '-fsanitize=null']
     
 
 libpq_dep = dependency('libpq')
+jsoncpp = dependency('nlohmann_json')
 
 fltk_config = find_program('fltk-config')
 fltk_include_dirs = run_command(fltk_config, '--includedir', check:
@@ -24,4 +25,4 @@ if get_option('buildtype') == 'debug'
     add_project_link_arguments(sanitazers, language : 'cpp')
 endif
 
-executable('test_sys', src, dependencies: [fltk_dep, libpq_dep])
+executable('test_sys', src, dependencies: [fltk_dep, libpq_dep, jsoncpp])
