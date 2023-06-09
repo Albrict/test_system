@@ -4,6 +4,7 @@
 
 #include "registration_group.hpp"
 #include "group_manager.hpp"
+#include "test_group.hpp"
 
 namespace {
 
@@ -35,7 +36,9 @@ namespace {
         // Init GUI
         win = new Fl_Double_Window(1024, 768, "Testing System");
         win->callback(main_window_callback);
-        GroupManager::getInstance().addGroup("registration_group", *new RegistrationGrop(*connection));
+
+        Student student = { nullptr, nullptr, nullptr, nullptr, nullptr };
+        GroupManager::getInstance().addGroup("registration_group", *new TestGroup(student));
         win->fullscreen();
         win->show();
     }

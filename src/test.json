@@ -1,19 +1,19 @@
 {
-    "test": {
-        "title": "example test",
-        "test_array": [
-            {
-                "question": {
-                    "text": "1 + 1 = ?",
-                    "answer": "2"
-                }
-            },
-            {
-                "question": {
-                    "test": "In what language is written this program?",
-                    "answer": "C++"
-                }
+    "title": "example test",
+    "test_array": [
+        {
+            "question": {
+                "text": "1 + 1 = ?",
+                "answer": "2",
+                "variants": ["1", "3", "4"] 
             }
-        ]
-    }
+        },
+        {
+            "question": {
+                "text": "In what language this programm is written?",
+                "answer": "2",
+                "variants": ["C#", "Pascal", "C"] 
+            }
+        }
+    ]
 }
