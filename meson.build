@@ -1,5 +1,5 @@
 project('test_system', 'cpp', version: '0.1.0')
-src = ['src/main.cpp', 'src/registration_group.cpp', 'src/group_manager.cpp', 'src/test_group.cpp']
+src = ['src/main.cpp', 'src/registration_group.cpp', 'src/group_manager.cpp', 'src/test_group.cpp', 'src/result_group.cpp']
 sanitazers = ['-fsanitize=address', '-fsanitize=leak', '-fsanitize=undefined', '-fsanitize=null']
     
 
