@@ -1,10 +1,10 @@
 #include <FL/Enumerations.H>
 #include <FL/Fl.H>
 #include <FL/Fl_Double_Window.H>
+#include <libpq-fe.h>
 
-#include "registration_group.hpp"
 #include "group_manager.hpp"
-#include "test_group.hpp"
+#include "registration_group.hpp"
 
 namespace {
 
@@ -37,8 +37,7 @@ namespace {
         win = new Fl_Double_Window(1024, 768, "Testing System");
         win->callback(main_window_callback);
 
-        Student student = { nullptr, nullptr, nullptr, nullptr, nullptr };
-        GroupManager::getInstance().addGroup("registration_group", *new TestGroup(student));
+        GroupManager::getInstance().addGroup("registration_group", *new RegistrationGrop(*connection));
         win->fullscreen();
         win->show();
     }

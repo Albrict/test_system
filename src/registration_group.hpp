@@ -17,5 +17,5 @@ class RegistrationGrop: public Fl_Group {
 public:
     RegistrationGrop(PGconn &p_connection);
 private:
-    static void say_callback(Fl_Widget *widget, void *data);
+    static void writeToDatabaseCallback(Fl_Widget *widget, void *data);
 };

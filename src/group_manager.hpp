@@ -14,6 +14,6 @@ public:
     void deleteGroup(const std::string &key);
 private:
     GroupManager()
-        : Fl_Group(0, 0, Fl::w(), Fl::h()), group_table(){}
+        : Fl_Group(0, 0, Fl::w(), Fl::h()), group_table(){ resizable(this); }
     ~GroupManager() {}
 };

@@ -3,39 +3,37 @@
 #include <FL/Fl_Group.H>
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Radio_Round_Button.H>
+#include <libpq-fe.h>
 #include <nlohmann/json.hpp>
-
-struct Student {
-    const char *first_name;
-    const char *second_name;
-    const char *middle_name;
-    const char *group_name;
-    const char *id;
-};
 
 class TestGroup : public Fl_Group {
     struct Question {
         std::string question_text;
-        std::string answer;
-        std::vector<std::string> false_answers;
+        std::vector<std::string> answers;
 
-        Question(const std::string &p_question_text, const std::string &p_answer, const std::vector<std::string> &p_false_answers)
-            : question_text(p_question_text), answer(p_answer), false_answers(p_false_answers) {}
+        size_t right_answer;
+        Question(const std::string &p_question_text, const std::vector<std::string> &p_answers, const size_t p_right_answer)
+            : question_text(p_question_text), answers(p_answers), right_answer(p_right_answer){}
     };
 
     Fl_Box *test_title;
     Fl_Box *question_box;
-    
+    Fl_Button *submit;     
+
     std::vector<Question> questions_vector;
     std::vector<Fl_Radio_Round_Button*> radio_buttons_vector;
     std::string test_title_string;
-
-    Student student;
     nlohmann::json data;
 
-    uint32_t current_question;
+    size_t current_question;
+    uint32_t score;
+
+    PGconn &connection;
+    const char &student_id;
 public:
-    TestGroup(const Student p_student);
+    TestGroup(const char &p_student_id, PGconn &p_connection);
 private:
     void loadJSONAndInitializeVectors();
+    void createQuestion();
+    static void answerCallback(Fl_Widget *widget, void *data);
 };

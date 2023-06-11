@@ -68,7 +68,7 @@ RegistrationGrop::RegistrationGrop(PGconn &p_connection)
         
         // Submit button
         button = new Fl_Button(Fl::w() / 2 - button_width, Fl::h() - 100, button_width, button_height, "Submit");
-        button->callback(say_callback, this);
+        button->callback(writeToDatabaseCallback, this);
         combobox = new Fl_Choice(Fl::w() / 2 - combobox_width, Fl::h() / 2 + input_field_height, combobox_width, combobox_height, "Group:");
         
         // Combobox with group list from database
@@ -81,7 +81,7 @@ RegistrationGrop::RegistrationGrop(PGconn &p_connection)
     end();
 }
 
-void RegistrationGrop::say_callback(Fl_Widget *widget, void *data)
+void RegistrationGrop::writeToDatabaseCallback(Fl_Widget *widget, void *data)
 {
     std::vector<const char*> student_data;
     RegistrationGrop *registration_group = (RegistrationGrop*)data;
@@ -108,7 +108,7 @@ void RegistrationGrop::say_callback(Fl_Widget *widget, void *data)
         res = PQexecParams(&registration_group->connection, query_select, 4, nullptr, student_data.data(),
                      nullptr, nullptr, 0);
         student.id = PQgetvalue(res, 0, 0);
-        GroupManager::getInstance().addGroup("test_group", *new TestGroup(student));
+        GroupManager::getInstance().addGroup("test_group", *new TestGroup(student, registration_group->connection));
         GroupManager::getInstance().deleteGroup("registration_group");
     }
     PQclear(res);
