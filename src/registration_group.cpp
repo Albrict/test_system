@@ -37,10 +37,15 @@ namespace  {
 
 const char *query_insert = "INSERT INTO students(first_name, second_name, middle_name, group_id) "
                             "SELECT "
-                            "$1, $2, $3, $4 "
+                            "$1::varchar, $2::varchar, $3::varchar, $4::varchar "
                             "WHERE "
                                 "NOT EXISTS ( "
-                                "SELECT * FROM students); ";
+                                "SELECT * FROM students "
+                                "WHERE "
+                                "first_name = $1 AND "
+                                "second_name = $2 AND "
+                                "middle_name = $3 AND "
+                                "group_id = $4);";
 
 const char *query_select = "SELECT student_id FROM students "
                             "WHERE "
@@ -85,8 +90,6 @@ void RegistrationGrop::writeToDatabaseCallback(Fl_Widget *widget, void *data)
 {
     std::vector<const char*> student_data;
     RegistrationGrop *registration_group = (RegistrationGrop*)data;
-    Student student = { nullptr, nullptr, nullptr, nullptr, nullptr };
-    
     // Get info from input fields and fill student_data vector 
     student_data.reserve(4);
     for (const auto it : registration_group->input_field_array)
@@ -94,11 +97,6 @@ void RegistrationGrop::writeToDatabaseCallback(Fl_Widget *widget, void *data)
     student_data.push_back(registration_group->combobox->text());
     
     // Fill student struct, that needed for TestGroup
-    student.first_name = student_data[first_name];
-    student.second_name = student_data[second_name];
-    student.middle_name = student_data[middle_name];
-    student.group_name = student_data[group_name];
-     
     // Execute query and send student_data to database
     PGresult *res = PQexecParams(&registration_group->connection, query_insert, 4, nullptr, student_data.data(),
                                  nullptr, nullptr, 0);
@@ -106,9 +104,9 @@ void RegistrationGrop::writeToDatabaseCallback(Fl_Widget *widget, void *data)
         Fl::error(PQresultErrorMessage(res));
     } else {
         res = PQexecParams(&registration_group->connection, query_select, 4, nullptr, student_data.data(),
-                     nullptr, nullptr, 0);
-        student.id = PQgetvalue(res, 0, 0);
-        GroupManager::getInstance().addGroup("test_group", *new TestGroup(student, registration_group->connection));
+                     nullptr, nullptr, 0); 
+        std::string *student_id = new std::string(PQgetvalue(res, 0, 0));
+        GroupManager::getInstance().addGroup("test_group", *new TestGroup(*student_id->c_str(), registration_group->connection));
         GroupManager::getInstance().deleteGroup("registration_group");
     }
     PQclear(res);
