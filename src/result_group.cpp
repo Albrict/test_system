@@ -5,16 +5,15 @@
 namespace {
     const char *query = "INSERT INTO tests(test_name, score, student_id, subject_id)"
                         "VALUES($1, $2, $3, $4)";
-    const int array_size = 4;
 }
 
-ResultGroup::ResultGroup(const char &p_student_id, const char &p_test_name, const uint32_t p_score, PGconn &p_connection)
+ResultGroup::ResultGroup(const std::string &p_student_id, const std::string &p_test_name, const std::string p_subject, 
+            const uint32_t p_score, PGconn &p_connection)
     : Fl_Group(0, 0, Fl::h(), Fl::w()),
-    result(nullptr),
-    exit(nullptr), 
     connection(p_connection),
     student_id(p_student_id),
     test_name(p_test_name),
+    subject(p_subject),
     score_string()
 {
     begin();
@@ -34,12 +33,11 @@ void ResultGroup::submitResultsToDatabaseCallback(Fl_Widget *widget, void *data)
     std::vector<const char*> test_data;
     test_data.reserve(4);
 
-    test_data.push_back(&result_group.test_name);
+    test_data.push_back(result_group.test_name.c_str());
     test_data.push_back(result_group.score_string.c_str());
-    test_data.push_back(&result_group.student_id);
-    test_data.push_back("3");
-
-//    const char *data_array[array_size] {&result_group.test_name, result_group.score_string.c_str(), &result_group.student_id, "4"};
+    test_data.push_back(result_group.student_id.c_str());
+    test_data.push_back(result_group.subject.c_str());
+        
     PGresult *res = PQexecParams(&result_group.connection, query, 4, nullptr, test_data.data(), nullptr, nullptr, 0);
     if (PQresultStatus(res) != PGRES_COMMAND_OK)
         Fl::error(PQresultErrorMessage(res));

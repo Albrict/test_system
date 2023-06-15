@@ -27,7 +27,7 @@ namespace {
     void init()
     {
         // Connect to database
-        connection = PQconnectdb("host=localhost port=5432 dbname=test_db user=postgres");
+        connection = PQconnectdb("host=localhost port=5432 dbname=test_db user=postgres password=pass");
         
         if (PQstatus(connection) != CONNECTION_OK) {
             Fl::fatal(PQerrorMessage(connection));

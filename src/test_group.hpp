@@ -4,7 +4,7 @@
 #include <FL/Fl_Button.H>
 #include <FL/Fl_Radio_Round_Button.H>
 #include <libpq-fe.h>
-#include <nlohmann/json.hpp>
+#include "json.hpp"
 
 class TestGroup : public Fl_Group {
     struct Question {
@@ -16,22 +16,25 @@ class TestGroup : public Fl_Group {
             : question_text(p_question_text), answers(p_answers), right_answer(p_right_answer){}
     };
 
-    Fl_Box *test_title;
-    Fl_Box *question_box;
-    Fl_Button *submit;     
+    Fl_Box *test_title = nullptr;
+    Fl_Box *question_box = nullptr;
+    Fl_Button *submit = nullptr;     
 
     std::vector<Question> questions_vector;
     std::vector<Fl_Radio_Round_Button*> radio_buttons_vector;
     std::string test_title_string;
+    std::string test_name;
+    std::string test_subject;
+    std::string student_id;
+
+
+    size_t current_question = 0;
+    uint32_t score = 0;
+
     nlohmann::json data;
-
-    size_t current_question;
-    uint32_t score;
-
     PGconn &connection;
-    const char &student_id;
 public:
-    TestGroup(const char &p_student_id, PGconn &p_connection);
+    TestGroup(const std::string &p_test_name, const std::string &p_student_id, PGconn &p_connection);
 private:
     void loadJSONAndInitializeVectors();
     void createQuestion();

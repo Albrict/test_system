@@ -18,19 +18,16 @@ namespace {
     const std::string submit_str = "Submit";
 };
 
-TestGroup::TestGroup(const char &p_student_id, PGconn &p_connection)
+TestGroup::TestGroup(const std::string &p_test_name, const std::string &p_student_id, PGconn &p_connection)
     : Fl_Group(0, 0, Fl::h(), Fl::w()),
-    test_title(nullptr),
-    question_box(nullptr),
-    submit(nullptr),
     questions_vector(), 
     radio_buttons_vector(),
     test_title_string(),
+    test_name(p_test_name),
+    test_subject(),
+    student_id(p_student_id),
     data(),
-    current_question(0),
-    score(0),
-    connection(p_connection),
-    student_id(p_student_id)
+    connection(p_connection)
 {
     loadJSONAndInitializeVectors();
     createQuestion();
@@ -45,10 +42,11 @@ TestGroup::TestGroup(const char &p_student_id, PGconn &p_connection)
 
 void TestGroup::loadJSONAndInitializeVectors()
 {
-    std::ifstream f("../tests/test.json");
+    std::ifstream f(test_name);
     json data = json::parse(f);
     test_title_string = data["title"].get<std::string>();
-    
+    test_subject = data["subject"].get<std::string>(); 
+
     // Fill question vectors and find answer index
     for (const auto &element : data["test_array"]) {
         std::string question_text = element["question"]["text"].get<std::string>();
@@ -106,8 +104,10 @@ void TestGroup::answerCallback(Fl_Widget *widget, void *data)
             }
             test_group.current_question++;
             if (test_group.current_question >= test_group.questions_vector.size()) {
-                GroupManager::getInstance().addGroup("result_group", *new ResultGroup(test_group.student_id, *test_group.test_title_string.c_str(), 
-                                                                                      test_group.score, test_group.connection));
+
+                GroupManager::getInstance().addGroup("result_group", *new ResultGroup
+                    (test_group.student_id, test_group.test_title_string, test_group.test_subject, test_group.score, test_group.connection));
+
                 GroupManager::getInstance().deleteGroup("test_group");
                 break;
             } else {

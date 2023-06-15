@@ -1,0 +1,32 @@
+[
+  {
+    "directory": "/home/albrict/prog/test_system/debug",
+    "command": "c++ -Itest_sys.p -I. -I.. -I/usr/include/postgresql -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O0 -g -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=null -MD -MQ test_sys.p/src_main.cpp.o -MF test_sys.p/src_main.cpp.o.d -o test_sys.p/src_main.cpp.o -c ../src/main.cpp",
+    "file": "../src/main.cpp",
+    "output": "test_sys.p/src_main.cpp.o"
+  },
+  {
+    "directory": "/home/albrict/prog/test_system/debug",
+    "command": "c++ -Itest_sys.p -I. -I.. -I/usr/include/postgresql -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O0 -g -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=null -MD -MQ test_sys.p/src_registration_group.cpp.o -MF test_sys.p/src_registration_group.cpp.o.d -o test_sys.p/src_registration_group.cpp.o -c ../src/registration_group.cpp",
+    "file": "../src/registration_group.cpp",
+    "output": "test_sys.p/src_registration_group.cpp.o"
+  },
+  {
+    "directory": "/home/albrict/prog/test_system/debug",
+    "command": "c++ -Itest_sys.p -I. -I.. -I/usr/include/postgresql -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O0 -g -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=null -MD -MQ test_sys.p/src_group_manager.cpp.o -MF test_sys.p/src_group_manager.cpp.o.d -o test_sys.p/src_group_manager.cpp.o -c ../src/group_manager.cpp",
+    "file": "../src/group_manager.cpp",
+    "output": "test_sys.p/src_group_manager.cpp.o"
+  },
+  {
+    "directory": "/home/albrict/prog/test_system/debug",
+    "command": "c++ -Itest_sys.p -I. -I.. -I/usr/include/postgresql -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O0 -g -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=null -MD -MQ test_sys.p/src_test_group.cpp.o -MF test_sys.p/src_test_group.cpp.o.d -o test_sys.p/src_test_group.cpp.o -c ../src/test_group.cpp",
+    "file": "../src/test_group.cpp",
+    "output": "test_sys.p/src_test_group.cpp.o"
+  },
+  {
+    "directory": "/home/albrict/prog/test_system/debug",
+    "command": "c++ -Itest_sys.p -I. -I.. -I/usr/include/postgresql -fdiagnostics-color=always -D_FILE_OFFSET_BITS=64 -Wall -Winvalid-pch -O0 -g -fsanitize=address -fsanitize=leak -fsanitize=undefined -fsanitize=null -MD -MQ test_sys.p/src_result_group.cpp.o -MF test_sys.p/src_result_group.cpp.o.d -o test_sys.p/src_result_group.cpp.o -c ../src/result_group.cpp",
+    "file": "../src/result_group.cpp",
+    "output": "test_sys.p/src_result_group.cpp.o"
+  }
+]
